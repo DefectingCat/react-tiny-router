@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import routes from './routes';
 
 const Router: React.FC = () => {
   const [path, setPath] = useState(location.pathname);
+  const element = routes.find((route) => route.path === path)?.component;
 
   useEffect(() => {
     document.addEventListener('route', ((e: CustomEvent<string>) => {
@@ -11,7 +12,13 @@ const Router: React.FC = () => {
     }) as EventListener);
   }, []);
 
-  return <>{routes.find((route) => route.path === path)?.component({})}</>;
+  return (
+    <>
+      <Suspense fallback={<p>loading...</p>}>
+        {element ? React.createElement(element) : void 0}
+      </Suspense>
+    </>
+  );
 };
 
 export default Router;
