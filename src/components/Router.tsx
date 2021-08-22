@@ -5,11 +5,22 @@ const Router: React.FC = () => {
   const [path, setPath] = useState(location.pathname);
   const element = routes.find((route) => route.path === path)?.component;
 
+  const handleRoute = (e: CustomEvent<string>) => {
+    console.log(e.detail);
+    setPath(e.detail);
+  };
+
   useEffect(() => {
-    document.addEventListener('route', ((e: CustomEvent<string>) => {
-      console.log(e.detail);
-      setPath(e.detail);
-    }) as EventListener);
+    /**
+     * 监听自定义 route 事件
+     * 并根据 path 修改路由
+     */
+    document.addEventListener('route', handleRoute as EventListener);
+
+    return () => {
+      // 清楚副作用
+      document.removeEventListener('route', handleRoute as EventListener);
+    };
   }, []);
 
   return (
