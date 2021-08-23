@@ -18,7 +18,7 @@ const Router: React.FC = () => {
     document.addEventListener('route', handleRoute as EventListener);
 
     return () => {
-      // 清楚副作用
+      // 清除副作用
       document.removeEventListener('route', handleRoute as EventListener);
     };
   }, []);
