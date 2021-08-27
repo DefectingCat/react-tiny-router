@@ -13,6 +13,7 @@ const App: React.FC = () => {
           <RouterLink to="/about">About</RouterLink>
         </li>
       </ul>
+
       <Router />
     </>
   );
